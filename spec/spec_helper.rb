@@ -17,7 +17,6 @@
 require 'bundler/setup'
 Bundler.setup
 require 'awesome_print'
-require 'faraday_middleware'
 require 'vcr'
 
 Dir['lib/**/*.rb'].each { |f| require_relative "../#{f}" }
