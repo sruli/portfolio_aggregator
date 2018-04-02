@@ -3,6 +3,8 @@
 class PortfolioAggregator
   # Object representing an individual stock
   class Stock
+    IllegalTransationError = Class.new(StandardError)
+
     attr_accessor :current_number_of_shares
 
     def initialize(stock_symbol:, percentage:, interval:)
@@ -16,37 +18,45 @@ class PortfolioAggregator
       @current_number_of_shares * current_price(date_str)
     end
 
-    # TODO: refactor present_value/intended_value
     def above_threshold?(total_value, date_str)
-      present_value = @current_number_of_shares * current_price(date_str)
-      intended_value = total_value * @percentage
+      price = current_price(date_str)
+      present_value = calculate_present_value(price)
+      intended_value = calculate_intended_value(total_value)
       present_value > intended_value
     end
 
-    # TODO: refactor present_value/intended_value and use above_threshold?
     def buy!(total_value, cash, date_str)
       price = current_price(date_str)
-      present_value = @current_number_of_shares * price
-      intended_value = total_value * @percentage
+      present_value = calculate_present_value(price)
+      intended_value = calculate_intended_value(total_value)
 
-      raise unless present_value < intended_value # TODO: create error class
+      unless present_value < intended_value
+        message = "You cannot buy more unless present_value ($#{present_value}) is less than intended_value ($#{intended_value})" # rubocop:disable Metrics/LineLength
+        raise IllegalTransationError, message
+      end
 
       difference = intended_value - present_value
       number_of_shares_to_buy = (difference / price).floor
       cost = number_of_shares_to_buy * price
-      raise unless cash >= cost # TODO: create error class
+
+      unless cash >= cost
+        raise IllegalTransationError, "This transation costs $#{cost}. You only have $#{cash}." # rubocop:disable Metrics/LineLength
+      end
+
       @current_number_of_shares += number_of_shares_to_buy
 
       cash - cost
     end
 
-    # TODO: refactor present_value/intended_value and use above_threshold?
     def sell!(total_value, cash, date_str)
       price = current_price(date_str)
-      present_value = @current_number_of_shares * price
-      intended_value = total_value * @percentage
+      present_value = calculate_present_value(price)
+      intended_value = calculate_intended_value(total_value)
 
-      raise unless present_value > intended_value # TODO: create error class
+      unless present_value > intended_value
+        message = "You cannot sell unless present_value ($#{present_value}) is greater than intended_value ($#{intended_value})" # rubocop:disable Metrics/LineLength
+        raise IllegalTransationError, message
+      end
 
       difference = present_value - intended_value
       number_of_shares_to_sell = (difference / price).ceil
@@ -83,6 +93,14 @@ class PortfolioAggregator
           @api.monthly['Monthly Time Series']
         end
       end
+    end
+
+    def calculate_present_value(price)
+      @current_number_of_shares * price
+    end
+
+    def calculate_intended_value(total_value)
+      total_value * @percentage
     end
   end
 end

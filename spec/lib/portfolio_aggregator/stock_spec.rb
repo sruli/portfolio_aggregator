@@ -77,14 +77,20 @@ describe PortfolioAggregator::Stock do
       let(:cash) { 0 }
 
       it 'raises an error' do
-        expect { stock.buy!(total_value, cash, date_str) }.to raise_error(RuntimeError)
+        message = 'This transation costs $10. You only have $0.'
+        expect { # rubocop:disable Style/BlockDelimiters
+          stock.buy!(total_value, cash, date_str)
+        }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
       end
     end
 
     context 'when the current invested amount is already above the threshold' do
       it 'raises an error' do
         stock.current_number_of_shares = 20
-        expect { stock.buy!(total_value, cash, date_str) }.to raise_error(RuntimeError)
+        message = 'You cannot buy more unless present_value ($20) is less than intended_value ($10.0)'
+        expect { # rubocop:disable Style/BlockDelimiters
+          stock.buy!(total_value, cash, date_str)
+        }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
       end
     end
   end
@@ -113,7 +119,10 @@ describe PortfolioAggregator::Stock do
     context 'when the current invested amount is below the threshold' do
       it 'raises an error' do
         stock.current_number_of_shares = 5
-        expect { stock.sell!(total_value, cash, date_str) }.to raise_error(RuntimeError)
+        message = 'You cannot sell unless present_value ($5) is greater than intended_value ($10.0)'
+        expect { # rubocop:disable Style/BlockDelimiters
+          stock.sell!(total_value, cash, date_str)
+        }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
       end
     end
   end
