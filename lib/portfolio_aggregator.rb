@@ -5,7 +5,6 @@ require 'faraday_middleware'
 require_relative 'portfolio_aggregator/stock'
 require_relative 'portfolio_aggregator'
 require_relative 'portfolio_aggregator/api'
-require_relative 'portfolio_aggregator/date_incrementor' # TODO: delete
 require_relative 'portfolio_aggregator/date_manager'
 require_relative 'portfolio_aggregator/stock'
 require_relative 'portfolio_aggregator/stock/developed'

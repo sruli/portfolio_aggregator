@@ -9,7 +9,6 @@ Gem::Specification.new do |spec| # rubocop:disable BlockLength
   spec.files = [
     'lib/portfolio_aggregator.rb',
     'lib/portfolio_aggregator/api.rb',
-    'lib/portfolio_aggregator/date_incrementor.rb',
     'lib/portfolio_aggregator/date_manager.rb',
     'lib/portfolio_aggregator/stock.rb',
     'lib/portfolio_aggregator/stock/developed.rb',
