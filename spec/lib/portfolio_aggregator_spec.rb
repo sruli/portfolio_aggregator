@@ -1,5 +1,27 @@
 # frozen_string_literal: true
 
 describe PortfolioAggregator do
-  # TODO: figger out how to test this thing
+  subject(:portfolio_aggregator) { PortfolioAggregator.new(interval: interval) }
+
+  describe '#aggregate' do
+    context 'monthly' do
+      let(:interval) { PortfolioAggregator::MONTHLY }
+
+      it 'aggregates monthly data' do
+        VCR.use_cassette('portfolio_aggregator/monthly') do
+          portfolio_aggregator.aggregate
+        end
+      end
+    end
+
+    context 'weekly' do
+      let(:interval) { PortfolioAggregator::WEEKLY }
+
+      it 'aggregates weekly data' do
+        VCR.use_cassette('portfolio_aggregator/weekly') do
+          portfolio_aggregator.aggregate
+        end
+      end
+    end
+  end
 end

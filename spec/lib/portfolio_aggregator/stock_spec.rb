@@ -4,7 +4,7 @@ describe PortfolioAggregator::Stock do
   let(:stock_symbol) { PortfolioAggregator::Stock::Emerging::STOCK_SYMBOL }
   let(:percentage) { PortfolioAggregator::Stock::Emerging::PERCENTAGE }
   let(:interval) { PortfolioAggregator::MONTHLY }
-  let(:date_str) { '2018-01' }
+  let(:date_str) { '2017-03-31' }
 
   subject(:stock) do
     PortfolioAggregator::Stock.new(
@@ -123,24 +123,6 @@ describe PortfolioAggregator::Stock do
         expect { # rubocop:disable Style/BlockDelimiters
           stock.sell!(total_value, cash, date_str)
         }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
-      end
-    end
-  end
-
-  describe '#more_entries_after_date?' do
-    context 'when date supplied is earlier than latest date' do
-      it 'should return true' do
-        VCR.use_cassette('portfolio_aggregator/stock/emerging/monthly') do
-          expect(stock.more_entries_after_date?('1900-01')).to be true
-        end
-      end
-    end
-
-    context 'when date supplied is later than latest date' do
-      it 'should return false' do
-        VCR.use_cassette('portfolio_aggregator/stock/emerging/monthly') do
-          expect(stock.more_entries_after_date?('2100-01')).to be false
-        end
       end
     end
   end

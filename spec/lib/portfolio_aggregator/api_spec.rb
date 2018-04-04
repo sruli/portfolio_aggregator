@@ -7,8 +7,17 @@ describe PortfolioAggregator::Api do
   describe '#monthly' do
     it 'responds with monthly data' do
       VCR.use_cassette('portfolio_aggregator/api/emerging/monthly') do
-        response = PortfolioAggregator::Api.new(stock_symbol: 'voo').monthly
+        response = api.monthly
         expect(response).to have_key('Monthly Time Series')
+      end
+    end
+  end
+
+  describe '#weekly' do
+    it 'responds responds with weekly data' do
+      VCR.use_cassette('portfolio_aggregator/api/emerging/weekly') do
+        response = api.weekly
+        expect(response).to have_key('Weekly Time Series')
       end
     end
   end

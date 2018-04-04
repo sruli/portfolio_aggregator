@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Gem::Specification.new do |spec|
+Gem::Specification.new do |spec| # rubocop:disable BlockLength
   spec.name = 'portfolio_aggregator'
   spec.version = '0.0.0'
   spec.summary = 'A little library for portfolio tracking'
@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
     'lib/portfolio_aggregator.rb',
     'lib/portfolio_aggregator/api.rb',
     'lib/portfolio_aggregator/date_incrementor.rb',
+    'lib/portfolio_aggregator/date_manager.rb',
     'lib/portfolio_aggregator/stock.rb',
     'lib/portfolio_aggregator/stock/developed.rb',
     'lib/portfolio_aggregator/stock/emerging.rb',
@@ -24,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday_middleware'
   spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'timecop'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
 end

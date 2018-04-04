@@ -14,9 +14,10 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 
+require 'awesome_print'
 require 'bundler/setup'
 Bundler.setup
-require 'awesome_print'
+require 'timecop'
 require 'vcr'
 
 Dir['lib/**/*.rb'].each { |f| require_relative "../#{f}" }

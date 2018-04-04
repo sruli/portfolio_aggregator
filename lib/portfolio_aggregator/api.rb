@@ -23,5 +23,14 @@ class PortfolioAggregator
         apikey: ALPHA_VANTAGE_API_KEY
       ).body
     end
+
+    def weekly
+      @connection.get(
+        '/query',
+        function: 'TIME_SERIES_WEEKLY',
+        symbol: @stock_symbol,
+        apikey: ALPHA_VANTAGE_API_KEY
+      ).body
+    end
   end
 end

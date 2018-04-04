@@ -25,13 +25,13 @@ class PortfolioAggregator
       present_value > intended_value
     end
 
-    def buy!(total_value, cash, date_str)
+    def buy!(total_value, cash, date_str) # rubocop:disable MethodLength
       price = current_price(date_str)
       present_value = calculate_present_value(price)
       intended_value = calculate_intended_value(total_value)
 
       unless present_value < intended_value
-        message = "You cannot buy more unless present_value ($#{present_value}) is less than intended_value ($#{intended_value})" # rubocop:disable Metrics/LineLength
+        message = "You cannot buy more unless present_value ($#{present_value}) is less than intended_value ($#{intended_value})" # rubocop:disable LineLength
         raise IllegalTransationError, message
       end
 
@@ -40,7 +40,7 @@ class PortfolioAggregator
       cost = number_of_shares_to_buy * price
 
       unless cash >= cost
-        raise IllegalTransationError, "This transation costs $#{cost}. You only have $#{cash}." # rubocop:disable Metrics/LineLength
+        raise IllegalTransationError, "This transation costs $#{cost}. You only have $#{cash}." # rubocop:disable LineLength
       end
 
       @current_number_of_shares += number_of_shares_to_buy
@@ -48,13 +48,13 @@ class PortfolioAggregator
       cash - cost
     end
 
-    def sell!(total_value, cash, date_str)
+    def sell!(total_value, cash, date_str) # rubocop:disable MethodLength
       price = current_price(date_str)
       present_value = calculate_present_value(price)
       intended_value = calculate_intended_value(total_value)
 
       unless present_value > intended_value
-        message = "You cannot sell unless present_value ($#{present_value}) is greater than intended_value ($#{intended_value})" # rubocop:disable Metrics/LineLength
+        message = "You cannot sell unless present_value ($#{present_value}) is greater than intended_value ($#{intended_value})" # rubocop:disable LineLength
         raise IllegalTransationError, message
       end
 
@@ -62,38 +62,25 @@ class PortfolioAggregator
       number_of_shares_to_sell = (difference / price).ceil
       profit = number_of_shares_to_sell * price
       @current_number_of_shares -= number_of_shares_to_sell
-
       cash + profit
     end
 
-    def more_entries_after_date?(date_str)
-      formatter = ->(str) { str.split('-').map(&:to_i) }
-
-      current_time = Time.new(*formatter.call(date_str))
-      latest_timestamp = historical_data.keys.first
-      latest_time = Time.new(*formatter.call(latest_timestamp))
-
-      latest_time > current_time
-    end
-
     def current_price(date_str)
-      case @interval
-      when PortfolioAggregator::MONTHLY
-        timestamp = historical_data.keys.find { |k| k.start_with?(date_str) }
-        historical_data[timestamp]['4. close'].to_f
-      end
+      historical_data[date_str]['4. close'].to_f
     end
-
-    private
 
     def historical_data
       @historical_data ||= begin
         case @interval
         when PortfolioAggregator::MONTHLY
           @api.monthly['Monthly Time Series']
+        when PortfolioAggregator::WEEKLY
+          @api.weekly['Weekly Time Series']
         end
       end
     end
+
+    private
 
     def calculate_present_value(price)
       @current_number_of_shares * price
