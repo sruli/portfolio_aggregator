@@ -14,10 +14,19 @@ describe PortfolioAggregator::Api do
   end
 
   describe '#weekly' do
-    it 'responds responds with weekly data' do
+    it 'responds with weekly data' do
       VCR.use_cassette('portfolio_aggregator/api/emerging/weekly') do
         response = api.weekly
         expect(response).to have_key('Weekly Time Series')
+      end
+    end
+  end
+
+  describe '#daily' do
+    it 'responds with daily data' do
+      VCR.use_cassette('portfolio_aggregator/api/emerging/daily') do
+        response = api.daily
+        expect(response).to have_key('Time Series (Daily)')
       end
     end
   end

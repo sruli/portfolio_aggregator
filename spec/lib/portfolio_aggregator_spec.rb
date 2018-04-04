@@ -23,5 +23,15 @@ describe PortfolioAggregator do
         end
       end
     end
+
+    context 'daily' do
+      let(:interval) { PortfolioAggregator::DAILY }
+
+      it 'aggregates weekly data' do
+        VCR.use_cassette('portfolio_aggregator/daily') do
+          portfolio_aggregator.aggregate
+        end
+      end
+    end
   end
 end

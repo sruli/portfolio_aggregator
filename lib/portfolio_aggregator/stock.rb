@@ -76,6 +76,8 @@ class PortfolioAggregator
           @api.monthly['Monthly Time Series']
         when PortfolioAggregator::WEEKLY
           @api.weekly['Weekly Time Series']
+        when PortfolioAggregator::DAILY
+          @api.daily['Time Series (Daily)']
         end
       end
     end
