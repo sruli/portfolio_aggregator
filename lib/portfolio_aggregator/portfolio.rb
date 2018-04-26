@@ -8,7 +8,7 @@ class PortfolioAggregator
   #   :long_term
   #     - adjustments to current portfolio, switching current etfs that
   #       do not have historical data far enough back
-  module Portfolio
+  class Portfolio
     module Types
       CURRENT = :current
       LONG_TERM = :long_term
@@ -33,11 +33,14 @@ class PortfolioAggregator
       ]
     }.freeze
 
-    module_function
+    def initialize(portfolio_type:, interval:)
+      @portfolio_type = portfolio_type
+      @interval = interval
+    end
 
-    def get(portfolio_type, interval)
-      PORTFOLIOS[portfolio_type].map do |portfolio|
-        portfolio.new(interval: interval)
+    def stocks
+      @stocks ||= PORTFOLIOS[@portfolio_type].map do |portfolio|
+        portfolio.new(interval: @interval)
       end
     end
   end

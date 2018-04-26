@@ -3,7 +3,15 @@
 describe PortfolioAggregator::DateManager do
   let(:start_date) { PortfolioAggregator::DEFAULT_START_DATE }
   let(:interval) { PortfolioAggregator::MONTHLY }
-  subject(:date_manager) { PortfolioAggregator::DateManager.new(start_date: start_date, interval: interval) }
+  let(:portfolio) do
+    PortfolioAggregator::Portfolio.new(
+      portfolio_type: PortfolioAggregator::Portfolio::Types::CURRENT,
+      interval: interval
+    )
+  end
+  subject(:date_manager) do
+    PortfolioAggregator::DateManager.new(start_date: start_date, interval: interval, portfolio: portfolio)
+  end
 
   describe '.string_to_time' do
     it 'converts a time string to a time object' do
@@ -17,32 +25,15 @@ describe PortfolioAggregator::DateManager do
 
   describe '#setup!' do
     it 'sets up a collection of dates starting with the start date' do
-      VCR.use_cassette('portfolio_aggregator/date_manager/monthly') do
-        date_manager.setup!
-        first_time = PortfolioAggregator::DateManager.string_to_time(date_manager.dates.first)
-        start_time = PortfolioAggregator::DateManager.string_to_time(start_date)
-        expect(first_time).to be >= start_time
-      end
-    end
-
-    it 'sets up a collection of dates ending with today\'s date' do
-      VCR.use_cassette('portfolio_aggregator/date_manager/monthly') do
-        end_time = PortfolioAggregator::DateManager.string_to_time('2018-04-04')
-        Timecop.freeze(end_time) do
-          date_manager.setup!
-          last_time = PortfolioAggregator::DateManager.string_to_time(date_manager.dates.last)
-          expect(last_time).to be <= end_time
-        end
-      end
+      date_manager.setup!
+      first_time = PortfolioAggregator::DateManager.string_to_time(date_manager.dates.first)
+      start_time = PortfolioAggregator::DateManager.string_to_time(start_date)
+      expect(first_time).to be >= start_time
     end
   end
 
   describe '#fetch_next_date_str!' do
-    before(:each) do
-      VCR.use_cassette('portfolio_aggregator/date_manager/monthly') do
-        date_manager.setup!
-      end
-    end
+    before(:each) { date_manager.setup! }
 
     it 'returns the next date' do
       next_date = date_manager.fetch_next_date_str!

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PortfolioAggregator
-  # TODO: class comment
+  # Handles returning the next date that contains results
   class DateManager
     attr_reader :dates
 
@@ -9,17 +9,13 @@ class PortfolioAggregator
       Time.new(*time_str.split('-').map(&:to_i))
     end
 
-    def initialize(start_date:, interval:)
+    def initialize(start_date:, interval:, portfolio:)
       @start_date = self.class.string_to_time(start_date)
       @interval = interval
-      @dates = []
+      @dates = portfolio.stocks.first.dates
     end
 
-    # Takes a random stock in order to get it's date entries and
-    #   assumes that all stocks will have the same date entries
     def setup!
-      stock = PortfolioAggregator::Stock::Sp.new(interval: @interval)
-      @dates += stock.historical_data.keys.reverse
       @dates.delete_if { |date| self.class.string_to_time(date) < @start_date }
     end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe PortfolioAggregator::Api do
-  let(:stock_symbol) { PortfolioAggregator::Stock::Emerging::STOCK_SYMBOL }
+  let(:stock_symbol) { PortfolioAggregator::Stock::Vwo::STOCK_SYMBOL }
   subject(:api) { PortfolioAggregator::Api.new(stock_symbol: stock_symbol) }
 
   describe '#monthly' do

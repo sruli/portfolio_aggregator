@@ -76,15 +76,24 @@ class PortfolioAggregator
 
     def historical_data
       @historical_data ||= begin
+        pathname = File.join(
+          File.dirname(__FILE__),
+          "../../fixtures/#{@interval}/#{@stock_symbol}.json"
+        )
+        data = JSON.parse(File.read(pathname))
         case @interval
         when PortfolioAggregator::MONTHLY
-          @api.monthly['Monthly Time Series']
+          data['Monthly Time Series']
         when PortfolioAggregator::WEEKLY
-          @api.weekly['Weekly Time Series']
+          data['Weekly Time Series']
         when PortfolioAggregator::DAILY
-          @api.daily['Time Series (Daily)']
+          data['Time Series (Daily)']
         end
       end
+    end
+
+    def dates
+      historical_data.keys.reverse
     end
 
     private

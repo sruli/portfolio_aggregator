@@ -1,14 +1,23 @@
 # frozen_string_literal: true
 
 describe PortfolioAggregator do
-  subject(:portfolio_aggregator) { PortfolioAggregator.new(interval: interval) }
+  let(:start_date) { PortfolioAggregator::DEFAULT_START_DATE }
+  subject(:portfolio_aggregator) do
+    PortfolioAggregator.new(interval: interval, start_date: start_date)
+  end
 
   describe '#aggregate' do
     context 'monthly' do
       let(:interval) { PortfolioAggregator::MONTHLY }
 
       it 'aggregates monthly data' do
-        VCR.use_cassette('portfolio_aggregator/monthly') do
+        portfolio_aggregator.aggregate
+      end
+
+      context 'since 2012-11' do
+        let(:start_date) { '2012-11' }
+
+        it 'aggregates data' do
           portfolio_aggregator.aggregate
         end
       end
@@ -18,9 +27,7 @@ describe PortfolioAggregator do
       let(:interval) { PortfolioAggregator::WEEKLY }
 
       it 'aggregates weekly data' do
-        VCR.use_cassette('portfolio_aggregator/weekly') do
-          portfolio_aggregator.aggregate
-        end
+        portfolio_aggregator.aggregate
       end
     end
 
@@ -28,9 +35,7 @@ describe PortfolioAggregator do
       let(:interval) { PortfolioAggregator::DAILY }
 
       it 'aggregates weekly data' do
-        VCR.use_cassette('portfolio_aggregator/daily') do
-          portfolio_aggregator.aggregate
-        end
+        portfolio_aggregator.aggregate
       end
     end
   end

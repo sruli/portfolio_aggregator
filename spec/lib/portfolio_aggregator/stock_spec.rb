@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 describe PortfolioAggregator::Stock do
-  let(:stock_symbol) { PortfolioAggregator::Stock::Emerging::STOCK_SYMBOL }
-  let(:percentage) { PortfolioAggregator::Stock::Emerging::PERCENTAGE }
+  let(:stock_symbol) { PortfolioAggregator::Stock::Voo::STOCK_SYMBOL }
+  let(:percentage) { PortfolioAggregator::Stock::Voo::PERCENTAGE }
   let(:interval) { PortfolioAggregator::MONTHLY }
   let(:date_str) { '2017-03-31' }
 
@@ -122,6 +122,13 @@ describe PortfolioAggregator::Stock do
           stock.sell!(total_value, cash, date_str)
         }.to raise_error(PortfolioAggregator::Stock::IllegalTransactionError, message)
       end
+    end
+  end
+
+  describe '#dates' do
+    it 'returns an array of dates' do
+      expect(stock.dates).to be_an Array
+      expect(stock.dates.first).to match(/\d{4}-\d{2}-\d{2}/)
     end
   end
 end

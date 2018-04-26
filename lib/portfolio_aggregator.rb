@@ -25,39 +25,41 @@ require_relative 'portfolio_aggregator/stock/vwo'
 class PortfolioAggregator
   DEFAULT_START_DATE = '2017-03'
   DEFAULT_START_AMOUNT = 100_000
+  DEFAULT_PORTFOLIO_TYPE = PortfolioAggregator::Portfolio::Types::CURRENT
   INTERVALS = [
     MONTHLY = :monthly,
     WEEKLY = :weekly,
     DAILY = :daily
   ].freeze
 
-  def initialize(interval: MONTHLY) # rubocop:disable MethodLength
+  def initialize(
+    interval: MONTHLY,
+    portfolio_type: DEFAULT_PORTFOLIO_TYPE,
+    start_date: DEFAULT_START_DATE
+  )
     @interval = interval
-    @portfolio = [
-      PortfolioAggregator::Stock::Sp.new(interval: interval),
-      PortfolioAggregator::Stock::Developed.new(interval: interval),
-      PortfolioAggregator::Stock::Emerging.new(interval: interval),
-      PortfolioAggregator::Stock::Reits.new(interval: interval),
-      PortfolioAggregator::Stock::Treasury.new(interval: interval),
-      PortfolioAggregator::Stock::Vtip.new(interval: interval)
-    ]
-    @date_manager = PortfolioAggregator::DateManager.new(
-      start_date: DEFAULT_START_DATE,
+    @portfolio = PortfolioAggregator::Portfolio.new(
+      portfolio_type: portfolio_type,
       interval: interval
+    )
+    @date_manager = PortfolioAggregator::DateManager.new(
+      start_date: start_date,
+      interval: interval,
+      portfolio: @portfolio
     )
   end
 
   def aggregate # rubocop:disable MethodLength
     @date_manager.setup!
+    stocks = @portfolio.stocks
     date_str = @date_manager.fetch_next_date_str!
     invested = 0
     cash = DEFAULT_START_AMOUNT
 
     loop do
-      # TODO: @portfolio.map { |stock| stock.set_current_price!(date_str) }
-      invested = @portfolio.map { |stock| stock.total_invested(date_str) }.sum
+      invested = stocks.map { |stock| stock.total_invested(date_str) }.sum
       total_value = invested + cash
-      sellers, buyers = @portfolio.partition do |stock|
+      sellers, buyers = stocks.partition do |stock|
         stock.above_threshold?(total_value, date_str)
       end
 
@@ -65,12 +67,15 @@ class PortfolioAggregator
       buyers.each { |stock| cash = stock.buy!(total_value, cash, date_str) }
 
       next_date_str = @date_manager.fetch_next_date_str!
+      if next_date_str && PortfolioAggregator::DateManager.string_to_time(date_str).year != PortfolioAggregator::DateManager.string_to_time(next_date_str).year
+        p "#{date_str}: #{total_value}"
+      end
       break if next_date_str.nil?
 
       date_str = next_date_str
     end
 
-    invested = @portfolio.map { |stock| stock.total_invested(date_str) }.sum
-    puts "Current account value is #{invested + cash}"
+    invested = stocks.map { |stock| stock.total_invested(date_str) }.sum
+    puts "Current #{@interval} account value is #{invested + cash}"
   end
 end
