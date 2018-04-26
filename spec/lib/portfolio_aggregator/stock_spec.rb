@@ -16,9 +16,7 @@ describe PortfolioAggregator::Stock do
 
   describe '#current_price' do
     it 'returns the current price' do
-      VCR.use_cassette('portfolio_aggregator/stock/emerging/current_price') do
-        expect(stock.current_price(date_str)).to be_a(Numeric)
-      end
+      expect(stock.current_price(date_str)).to be_a(Numeric)
     end
   end
 
@@ -80,7 +78,7 @@ describe PortfolioAggregator::Stock do
         message = 'This transation costs $10. You only have $0.'
         expect { # rubocop:disable Style/BlockDelimiters
           stock.buy!(total_value, cash, date_str)
-        }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
+        }.to raise_error(PortfolioAggregator::Stock::IllegalTransactionError, message)
       end
     end
 
@@ -90,7 +88,7 @@ describe PortfolioAggregator::Stock do
         message = 'You cannot buy more unless present_value ($20) is less than intended_value ($10.0)'
         expect { # rubocop:disable Style/BlockDelimiters
           stock.buy!(total_value, cash, date_str)
-        }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
+        }.to raise_error(PortfolioAggregator::Stock::IllegalTransactionError, message)
       end
     end
   end
@@ -122,7 +120,7 @@ describe PortfolioAggregator::Stock do
         message = 'You cannot sell unless present_value ($5) is greater than intended_value ($10.0)'
         expect { # rubocop:disable Style/BlockDelimiters
           stock.sell!(total_value, cash, date_str)
-        }.to raise_error(PortfolioAggregator::Stock::IllegalTransationError, message)
+        }.to raise_error(PortfolioAggregator::Stock::IllegalTransactionError, message)
       end
     end
   end
