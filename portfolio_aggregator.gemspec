@@ -24,6 +24,7 @@ Gem::Specification.new do |spec| # rubocop:disable BlockLength
   spec.add_runtime_dependency 'faraday_middleware'
   spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'timecop'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
