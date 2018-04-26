@@ -3,11 +3,13 @@
 class PortfolioAggregator
   # Object representing an individual stock
   class Stock
-    IllegalTransationError = Class.new(StandardError)
+    IllegalTransactionError = Class.new(StandardError)
+    OutOfRangeError = Class.new(StandardError)
 
     attr_accessor :current_number_of_shares
 
     def initialize(stock_symbol:, percentage:, interval:)
+      @stock_symbol = stock_symbol
       @interval = interval
       @percentage = percentage
       @api = PortfolioAggregator::Api.new(stock_symbol: stock_symbol)
@@ -32,7 +34,7 @@ class PortfolioAggregator
 
       unless present_value < intended_value
         message = "You cannot buy more unless present_value ($#{present_value}) is less than intended_value ($#{intended_value})" # rubocop:disable LineLength
-        raise IllegalTransationError, message
+        raise IllegalTransactionError, message
       end
 
       difference = intended_value - present_value
@@ -40,7 +42,7 @@ class PortfolioAggregator
       cost = number_of_shares_to_buy * price
 
       unless cash >= cost
-        raise IllegalTransationError, "This transation costs $#{cost}. You only have $#{cash}." # rubocop:disable LineLength
+        raise IllegalTransactionError, "This transation costs $#{cost}. You only have $#{cash}." # rubocop:disable LineLength
       end
 
       @current_number_of_shares += number_of_shares_to_buy
@@ -55,7 +57,7 @@ class PortfolioAggregator
 
       unless present_value > intended_value
         message = "You cannot sell unless present_value ($#{present_value}) is greater than intended_value ($#{intended_value})" # rubocop:disable LineLength
-        raise IllegalTransationError, message
+        raise IllegalTransactionError, message
       end
 
       difference = present_value - intended_value
@@ -67,6 +69,9 @@ class PortfolioAggregator
 
     def current_price(date_str)
       historical_data[date_str]['4. close'].to_f
+    rescue NoMethodError
+      message = "Data is not available for #{@stock_symbol} on #{date_str}"
+      raise OutOfRangeError, message
     end
 
     def historical_data
