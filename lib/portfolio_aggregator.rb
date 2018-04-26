@@ -27,6 +27,7 @@ class PortfolioAggregator
   ].freeze
 
   def initialize(interval: MONTHLY) # rubocop:disable MethodLength
+    @interval = interval
     @portfolio = [
       PortfolioAggregator::Stock::Sp.new(interval: interval),
       PortfolioAggregator::Stock::Developed.new(interval: interval),
