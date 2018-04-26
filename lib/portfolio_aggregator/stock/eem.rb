@@ -2,9 +2,10 @@
 
 class PortfolioAggregator
   class Stock
-    class Developed < Stock
-      STOCK_SYMBOL = 'vea'
-      PERCENTAGE = 0.15
+    # iShares Emerging markets etf
+    class Eem < Stock
+      STOCK_SYMBOL = 'eem'
+      PERCENTAGE = 0.1
 
       def initialize(interval:)
         super(

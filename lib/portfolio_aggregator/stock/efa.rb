@@ -2,8 +2,9 @@
 
 class PortfolioAggregator
   class Stock
-    class Reits < Stock
-      STOCK_SYMBOL = 'vnq'
+    # iShares Developed markets etf
+    class Efa < Stock
+      STOCK_SYMBOL = 'efa'
       PERCENTAGE = 0.15
 
       def initialize(interval:)

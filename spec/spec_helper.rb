@@ -20,11 +20,22 @@ Bundler.setup
 require 'timecop'
 require 'vcr'
 
-Dir['lib/**/*.rb'].each { |f| require_relative "../#{f}" }
+loop do
+  success = true
+  Dir['lib/**/*.rb'].each do |f|
+    begin
+      require_relative "../#{f}"
+    rescue NameError
+      success = false
+    end
+  end
+  break if success
+end
 
 require 'portfolio_aggregator'
 
 VCR.configure do |config|
+  config.allow_http_connections_when_no_cassette = true
   config.cassette_library_dir = 'fixtures/vcr_cassettes'
   config.hook_into :webmock
 end

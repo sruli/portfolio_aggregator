@@ -2,7 +2,8 @@
 
 class PortfolioAggregator
   class Stock
-    class Sp < Stock
+    # Vanguard S&P etf
+    class Voo < Stock
       STOCK_SYMBOL = 'voo'
       PERCENTAGE = 0.3
 

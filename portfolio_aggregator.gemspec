@@ -11,12 +11,17 @@ Gem::Specification.new do |spec| # rubocop:disable BlockLength
     'lib/portfolio_aggregator/api.rb',
     'lib/portfolio_aggregator/date_manager.rb',
     'lib/portfolio_aggregator/stock.rb',
-    'lib/portfolio_aggregator/stock/developed.rb',
-    'lib/portfolio_aggregator/stock/emerging.rb',
-    'lib/portfolio_aggregator/stock/reits.rb',
-    'lib/portfolio_aggregator/stock/sp.rb',
-    'lib/portfolio_aggregator/stock/treasury.rb',
-    'lib/portfolio_aggregator/stock/vtip.rb'
+    'lib/portfolio_aggregator/stock/eem.rb',
+    'lib/portfolio_aggregator/stock/efa.rb',
+    'lib/portfolio_aggregator/stock/ief.rb',
+    'lib/portfolio_aggregator/stock/iyr.rb',
+    'lib/portfolio_aggregator/stock/spy.rb',
+    'lib/portfolio_aggregator/stock/tip.rb',
+    'lib/portfolio_aggregator/stock/vea.rb',
+    'lib/portfolio_aggregator/stock/vnq.rb',
+    'lib/portfolio_aggregator/stock/voo.rb',
+    'lib/portfolio_aggregator/stock/vtip.rb',
+    'lib/portfolio_aggregator/stock/vwo.rb'
   ]
   spec.homepage = 'https://github.com/sruli/portfolio_aggregator'
   spec.license = 'MIT'

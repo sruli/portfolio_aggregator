@@ -2,9 +2,10 @@
 
 class PortfolioAggregator
   class Stock
-    class Emerging < Stock
-      STOCK_SYMBOL = 'vwo'
-      PERCENTAGE = 0.1
+    # iShares S&P etf
+    class Spy < Stock
+      STOCK_SYMBOL = 'spy'
+      PERCENTAGE = 0.3
 
       def initialize(interval:)
         super(

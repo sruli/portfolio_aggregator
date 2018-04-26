@@ -2,7 +2,8 @@
 
 class PortfolioAggregator
   class Stock
-    class Treasury < Stock
+    # iShares 7-10 year US Treasury bonds etf
+    class Ief < Stock
       STOCK_SYMBOL = 'ief'
       PERCENTAGE = 0.15
 

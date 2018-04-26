@@ -3,8 +3,8 @@
 class PortfolioAggregator
   class Stock
     # Vanguard VTIP etf
-    class Vtip < Stock
-      STOCK_SYMBOL = 'vtip'
+    class Tip < Stock
+      STOCK_SYMBOL = 'tip'
       PERCENTAGE = 0.15
 
       def initialize(interval:)
