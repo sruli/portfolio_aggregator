@@ -80,6 +80,30 @@ describe PortfolioAggregator do
           end
         end
       end
+
+      context 'weekly' do
+        let(:interval) { PortfolioAggregator::WEEKLY }
+
+        context 'since 2005-01' do
+          let(:start_date) { '2005-01' }
+
+          it 'aggregates data' do
+            portfolio_aggregator.aggregate
+          end
+        end
+      end
+
+      context 'daily' do
+        let(:interval) { PortfolioAggregator::DAILY }
+
+        context 'since 2005-01' do
+          let(:start_date) { '2005-01' }
+
+          it 'aggregates data' do
+            portfolio_aggregator.aggregate
+          end
+        end
+      end
     end
   end
 end
