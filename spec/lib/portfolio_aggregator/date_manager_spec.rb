@@ -5,7 +5,7 @@ describe PortfolioAggregator::DateManager do
   let(:interval) { PortfolioAggregator::MONTHLY }
   let(:portfolio) do
     PortfolioAggregator::Portfolio.new(
-      portfolio_type: PortfolioAggregator::Portfolio::Types::CURRENT,
+      portfolio_type: PortfolioAggregator::Portfolio::CURRENT,
       interval: interval
     )
   end

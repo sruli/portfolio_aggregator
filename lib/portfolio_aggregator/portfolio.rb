@@ -9,13 +9,11 @@ class PortfolioAggregator
   #     - adjustments to current portfolio, switching current etfs that
   #       do not have historical data far enough back
   class Portfolio
-    module Types
-      CURRENT = :current
-      LONG_TERM = :long_term
-    end
+    CURRENT = :current
+    LONG_TERM = :long_term
 
     PORTFOLIOS = {
-      Types::CURRENT => [
+      CURRENT => [
         PortfolioAggregator::Stock::Voo,
         PortfolioAggregator::Stock::Vea,
         PortfolioAggregator::Stock::Vwo,
@@ -23,7 +21,7 @@ class PortfolioAggregator
         PortfolioAggregator::Stock::Ief,
         PortfolioAggregator::Stock::Vtip
       ],
-      Types::LONG_TERM => [
+      LONG_TERM => [
         PortfolioAggregator::Stock::Spy,
         PortfolioAggregator::Stock::Efa,
         PortfolioAggregator::Stock::Eem,

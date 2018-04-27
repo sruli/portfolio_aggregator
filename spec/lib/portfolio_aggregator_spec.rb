@@ -2,7 +2,7 @@
 
 describe PortfolioAggregator do
   let(:start_date) { PortfolioAggregator::DEFAULT_START_DATE }
-  let(:portfolio_type) { PortfolioAggregator::Portfolio::Types::CURRENT }
+  let(:portfolio_type) { PortfolioAggregator::Portfolio::CURRENT }
   subject(:portfolio_aggregator) do
     PortfolioAggregator.new(
       interval: interval,
@@ -47,7 +47,7 @@ describe PortfolioAggregator do
     end
 
     context 'long term portfolio' do
-      let(:portfolio_type) { PortfolioAggregator::Portfolio::Types::LONG_TERM }
+      let(:portfolio_type) { PortfolioAggregator::Portfolio::LONG_TERM }
 
       context 'monthly' do
         let(:interval) { PortfolioAggregator::MONTHLY }

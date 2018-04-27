@@ -8,7 +8,7 @@ describe PortfolioAggregator::Portfolio do
 
   describe '#stocks' do
     describe 'current' do
-      let(:portfolio_type) { PortfolioAggregator::Portfolio::Types::CURRENT }
+      let(:portfolio_type) { PortfolioAggregator::Portfolio::CURRENT }
 
       it 'returns six stocks' do
         expect(portfolio.stocks.size).to eq(6)
@@ -40,7 +40,7 @@ describe PortfolioAggregator::Portfolio do
     end
 
     describe 'long_term' do
-      let(:portfolio_type) { PortfolioAggregator::Portfolio::Types::LONG_TERM }
+      let(:portfolio_type) { PortfolioAggregator::Portfolio::LONG_TERM }
 
       it 'returns six stocks' do
         expect(portfolio.stocks.size).to eq(6)

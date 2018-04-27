@@ -10,6 +10,7 @@ Gem::Specification.new do |spec| # rubocop:disable BlockLength
     'lib/portfolio_aggregator.rb',
     'lib/portfolio_aggregator/api.rb',
     'lib/portfolio_aggregator/date_manager.rb',
+    'lib/portfolio_aggregator/portfolio.rb',
     'lib/portfolio_aggregator/stock.rb',
     'lib/portfolio_aggregator/stock/eem.rb',
     'lib/portfolio_aggregator/stock/efa.rb',
