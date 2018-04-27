@@ -18,7 +18,7 @@ class PortfolioAggregator
     def monthly
       @connection.get(
         '/query',
-        function: 'TIME_SERIES_MONTHLY',
+        function: 'TIME_SERIES_MONTHLY_ADJUSTED',
         symbol: @stock_symbol,
         apikey: ALPHA_VANTAGE_API_KEY
       ).body
@@ -27,7 +27,7 @@ class PortfolioAggregator
     def weekly
       @connection.get(
         '/query',
-        function: 'TIME_SERIES_WEEKLY',
+        function: 'TIME_SERIES_WEEKLY_ADJUSTED',
         symbol: @stock_symbol,
         apikey: ALPHA_VANTAGE_API_KEY
       ).body
@@ -36,7 +36,7 @@ class PortfolioAggregator
     def daily
       @connection.get(
         '/query',
-        function: 'TIME_SERIES_DAILY',
+        function: 'TIME_SERIES_DAILY_ADJUSTED',
         symbol: @stock_symbol,
         outputsize: 'full',
         apikey: ALPHA_VANTAGE_API_KEY

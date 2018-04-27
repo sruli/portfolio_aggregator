@@ -8,7 +8,7 @@ describe PortfolioAggregator::Api do
     it 'responds with monthly data' do
       VCR.use_cassette('portfolio_aggregator/api/emerging/monthly') do
         response = api.monthly
-        expect(response).to have_key('Monthly Time Series')
+        expect(response).to have_key('Monthly Adjusted Time Series')
       end
     end
   end
@@ -17,7 +17,7 @@ describe PortfolioAggregator::Api do
     it 'responds with weekly data' do
       VCR.use_cassette('portfolio_aggregator/api/emerging/weekly') do
         response = api.weekly
-        expect(response).to have_key('Weekly Time Series')
+        expect(response).to have_key('Weekly Adjusted Time Series')
       end
     end
   end
@@ -40,7 +40,7 @@ describe PortfolioAggregator::Api do
 #         "../../../fixtures/daily/#{stock_symbol}.json"
 #       )
 #       File.open(pathname, 'w') do |f|
-#         f.puts response.to_json
+#         f.puts JSON.pretty_generate(response)
 #       end
 #     end
 #   end

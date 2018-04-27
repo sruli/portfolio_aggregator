@@ -20,8 +20,8 @@ describe PortfolioAggregator do
           portfolio_aggregator.aggregate
         end
 
-        context 'since 2013-01' do
-          let(:start_date) { '2013-01' }
+        context 'since 2012-11' do
+          let(:start_date) { '2012-11' }
 
           it 'aggregates data' do
             portfolio_aggregator.aggregate
@@ -40,7 +40,7 @@ describe PortfolioAggregator do
       context 'daily' do
         let(:interval) { PortfolioAggregator::DAILY }
 
-        it 'aggregates weekly data' do
+        it 'aggregates daily data' do
           portfolio_aggregator.aggregate
         end
       end
@@ -56,8 +56,8 @@ describe PortfolioAggregator do
           portfolio_aggregator.aggregate
         end
 
-        context 'since 2013-01' do
-          let(:start_date) { '2013-01' }
+        context 'since 2012-11' do
+          let(:start_date) { '2012-11' }
 
           it 'aggregates data' do
             portfolio_aggregator.aggregate
@@ -66,6 +66,14 @@ describe PortfolioAggregator do
 
         context 'since 2005-01' do
           let(:start_date) { '2005-01' }
+
+          it 'aggregates data' do
+            portfolio_aggregator.aggregate
+          end
+        end
+
+        context 'since 2008-04' do
+          let(:start_date) { '2008-04' }
 
           it 'aggregates data' do
             portfolio_aggregator.aggregate

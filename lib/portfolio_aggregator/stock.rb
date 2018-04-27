@@ -83,9 +83,9 @@ class PortfolioAggregator
         data = JSON.parse(File.read(pathname))
         case @interval
         when PortfolioAggregator::MONTHLY
-          data['Monthly Time Series']
+          data['Monthly Adjusted Time Series']
         when PortfolioAggregator::WEEKLY
-          data['Weekly Time Series']
+          data['Weekly Adjusted Time Series']
         when PortfolioAggregator::DAILY
           data['Time Series (Daily)']
         end
