@@ -68,7 +68,7 @@ class PortfolioAggregator
     end
 
     def current_price(date_str)
-      historical_data[date_str]['4. close'].to_f
+      BigDecimal(historical_data[date_str]['5. adjusted close'])
     rescue NoMethodError
       message = "Data is not available for #{@stock_symbol} on #{date_str}"
       raise OutOfRangeError, message

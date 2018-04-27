@@ -25,7 +25,6 @@ require_relative 'portfolio_aggregator/stock/vwo'
 class PortfolioAggregator
   DEFAULT_START_DATE = '2017-03'
   DEFAULT_START_AMOUNT = 100_000
-  DEFAULT_PORTFOLIO_TYPE = PortfolioAggregator::Portfolio::CURRENT
   INTERVALS = [
     MONTHLY = :monthly,
     WEEKLY = :weekly,
@@ -34,7 +33,7 @@ class PortfolioAggregator
 
   def initialize(
     interval: MONTHLY,
-    portfolio_type: DEFAULT_PORTFOLIO_TYPE,
+    portfolio_type: PortfolioAggregator::Portfolio::CURRENT,
     start_date: DEFAULT_START_DATE
   )
     @interval = interval
@@ -68,7 +67,7 @@ class PortfolioAggregator
 
       next_date_str = @date_manager.fetch_next_date_str!
       if next_date_str && PortfolioAggregator::DateManager.string_to_time(date_str).year != PortfolioAggregator::DateManager.string_to_time(next_date_str).year
-        p "#{date_str}: #{total_value}"
+        p "#{date_str}: #{total_value.to_f}"
       end
       break if next_date_str.nil?
 
@@ -76,6 +75,6 @@ class PortfolioAggregator
     end
 
     invested = stocks.map { |stock| stock.total_invested(date_str) }.sum
-    puts "Current #{@interval} account value is #{invested + cash}"
+    puts "Current #{@interval} account value is #{(invested + cash).to_f}"
   end
 end
