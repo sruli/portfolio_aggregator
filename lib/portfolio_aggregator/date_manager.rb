@@ -9,14 +9,22 @@ class PortfolioAggregator
       Time.new(*time_str.split('-').map(&:to_i))
     end
 
-    def initialize(start_date:, interval:, portfolio:)
+    def initialize(
+      start_date:,
+      end_date:,
+      interval: PortfolioAggregator::MONTHLY
+    )
       @start_date = self.class.string_to_time(start_date)
-      @interval = interval
-      @dates = portfolio.stocks.first.dates
+      @end_date = self.class.string_to_time(end_date)
+      # retrieve dates from Spy since it has the most dates
+      @dates = PortfolioAggregator::Stock::Spy.new(interval: interval).dates
     end
 
     def setup!
-      @dates.delete_if { |date| self.class.string_to_time(date) < @start_date }
+      @dates.delete_if do |date|
+        time = self.class.string_to_time(date)
+        time < @start_date || time > @end_date
+      end
     end
 
     def fetch_next_date_str!

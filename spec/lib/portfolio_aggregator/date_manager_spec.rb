@@ -2,15 +2,14 @@
 
 describe PortfolioAggregator::DateManager do
   let(:start_date) { PortfolioAggregator::DEFAULT_START_DATE }
+  let(:end_date) { PortfolioAggregator::DEFAULT_END_DATE }
   let(:interval) { PortfolioAggregator::MONTHLY }
-  let(:portfolio) do
-    PortfolioAggregator::Portfolio.new(
-      portfolio_type: PortfolioAggregator::Portfolio::CURRENT,
+  subject(:date_manager) do
+    PortfolioAggregator::DateManager.new(
+      start_date: start_date,
+      end_date: end_date,
       interval: interval
     )
-  end
-  subject(:date_manager) do
-    PortfolioAggregator::DateManager.new(start_date: start_date, interval: interval, portfolio: portfolio)
   end
 
   describe '.string_to_time' do
@@ -29,6 +28,17 @@ describe PortfolioAggregator::DateManager do
       first_time = PortfolioAggregator::DateManager.string_to_time(date_manager.dates.first)
       start_time = PortfolioAggregator::DateManager.string_to_time(start_date)
       expect(first_time).to be >= start_time
+    end
+
+    context 'when an end date is specified' do
+      let(:end_date) { '2018-01' }
+
+      it 'sets up a collection of dates ending with the end date' do
+        date_manager.setup!
+        last_time = PortfolioAggregator::DateManager.string_to_time(date_manager.dates.last)
+        end_time = PortfolioAggregator::DateManager.string_to_time(end_date)
+        expect(last_time).to be <= end_time
+      end
     end
   end
 
