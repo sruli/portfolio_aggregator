@@ -2,11 +2,13 @@
 
 describe PortfolioAggregator do
   let(:start_date) { PortfolioAggregator::DEFAULT_START_DATE }
+  let(:end_date) { PortfolioAggregator::DEFAULT_END_DATE }
   let(:portfolio_type) { PortfolioAggregator::Portfolio::CURRENT }
   subject(:portfolio_aggregator) do
     PortfolioAggregator.new(
       interval: interval,
       start_date: start_date,
+      end_date: end_date,
       portfolio_type: portfolio_type
     )
   end
@@ -102,6 +104,19 @@ describe PortfolioAggregator do
           it 'aggregates data' do
             portfolio_aggregator.aggregate
           end
+        end
+      end
+    end
+
+    context '2005-01 until 2011-12' do
+      context 'monthly long term' do
+        let(:interval) { PortfolioAggregator::MONTHLY }
+        let(:portfolio_type) { PortfolioAggregator::Portfolio::LONG_TERM }
+        let(:start_date) { '2005-01' }
+        let(:end_date) { '2011-12' }
+
+        it 'aggregates data' do
+          portfolio_aggregator.aggregate
         end
       end
     end

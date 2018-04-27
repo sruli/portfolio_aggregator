@@ -24,6 +24,7 @@ require_relative 'portfolio_aggregator/stock/vwo'
 #   receive the aggregate value of the portfolio
 class PortfolioAggregator
   DEFAULT_START_DATE = '2017-03'
+  DEFAULT_END_DATE = '2018-04'
   DEFAULT_START_AMOUNT = 100_000
   INTERVALS = [
     MONTHLY = :monthly,
@@ -34,7 +35,8 @@ class PortfolioAggregator
   def initialize(
     interval: MONTHLY,
     portfolio_type: PortfolioAggregator::Portfolio::CURRENT,
-    start_date: DEFAULT_START_DATE
+    start_date: DEFAULT_START_DATE,
+    end_date: DEFAULT_END_DATE
   )
     @interval = interval
     @portfolio = PortfolioAggregator::Portfolio.new(
@@ -43,8 +45,8 @@ class PortfolioAggregator
     )
     @date_manager = PortfolioAggregator::DateManager.new(
       start_date: start_date,
-      interval: interval,
-      portfolio: @portfolio
+      end_date: end_date,
+      interval: interval
     )
   end
 
