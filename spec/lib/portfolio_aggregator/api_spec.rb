@@ -30,4 +30,18 @@ describe PortfolioAggregator::Api do
       end
     end
   end
+
+#   describe 'saving the data in files' do
+#     let(:stock_symbol) { 'vwo' }
+#     it 'saves data in files' do
+#       response = api.daily
+#       pathname = File.join(
+#         File.dirname(__FILE__),
+#         "../../../fixtures/daily/#{stock_symbol}.json"
+#       )
+#       File.open(pathname, 'w') do |f|
+#         f.puts response.to_json
+#       end
+#     end
+#   end
 end
